@@ -4,17 +4,16 @@ Weather-Project on põnev veebirakendus, mis ühendab uudised ja ilmainfo ühes 
 
 <h2>Rakenduse lehed</h2>
 
-<h3>Uudiste leht – kuvab viimased uudised mugavas voos, mida on lihtne sirvida ja lugeda.
-
-Ilmaleht – näitab ilmastikuandmeid graafikute ja kaardi abil, sisaldab prognoosi järgmiste päevade jaoks.
+<h3>
+  Uudiste leht – kuvab viimased uudised mugavas voos, mida on lihtne sirvida ja lugeda.
+  
+  Ilmaleht – näitab ilmastikuandmeid graafikute ja kaardi abil, sisaldab prognoosi järgmiste päevade jaoks.
 </h3>
 <h2>Tehnoloogiad/<h2>
-<h3>
-PHP – serveripoolse loogika jaoks
 
-JavaScript – interaktiivsete elementide ja graafikute loomiseks
+  <h3>PHP – serveripoolse loogika jaoks
 
-SQL – andmete salvestamiseks (uudised ja ilmainfo)
-
-HTML/CSS – veebilehe struktuuri ja kujunduse loomiseks
-</h3>
+    JavaScript – interaktiivsete elementide ja graafikute loomiseks
+    SQL – andmete salvestamiseks (uudised ja ilmainfo)
+    HTML/CSS – veebilehe struktuuri ja kujunduse loomiseks
+  </h3>
