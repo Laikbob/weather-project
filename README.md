@@ -1,4 +1,4 @@
-Weather-Project 🌤️📰
+<h1>Weather-Project 🌤️📰</h1>
 
 Weather-Project on põnev veebirakendus, mis ühendab uudised ja ilmainfo ühes kohas. See pakub kasutajale kiiret ja mugavat juurdepääsu nii ajakohastele uudistele kui ka täpsele ilmaprognoosile.
 
