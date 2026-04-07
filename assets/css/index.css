@@ -1,106 +1,161 @@
-/* ===== Общие стили ===== */
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+/* ===== ОСНОВА ===== */
+
+body{
+    margin:0;
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #1e3c72, #2a5298);
+    color:white;
 }
 
-body {
-    font-family: Arial, sans-serif;
-    background: linear-gradient(to bottom, #1e3c72, #2a5298);
-    color: white;
-    line-height: 1.6;
+/* КОНТЕЙНЕР */
+.container{
+    max-width:900px;
+    margin:auto;
+    padding:20px;
+}
+/* ===== ЗАГОЛОВКИ ===== */
+h1{
+    text-align:center;
+    font-size:40px;
+    margin-bottom:10px;
 }
 
-/* ===== Контейнер ===== */
-.container {
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 40px 20px;
-    text-align: center;
+h2{
+    margin-top:30px;
 }
 
-/* ===== Заголовки ===== */
-h1 {
-    font-size: 2.5rem;
-    margin-bottom: 20px;
+/* ===== ЯЗЫК ===== */
+
+.lang-switch{
+    text-align:center;
+    margin-bottom:20px;
 }
 
-h2 {
-    font-size: 2rem;
-    margin: 30px 0 20px;
+.lang-switch a{
+    margin:0 10px;
+    text-decoration:none;
+    font-weight:bold;
+    color:white;
+    padding:6px 12px;
+    border-radius:8px;
+    transition:0.3s;
 }
 
-h3 {
-    font-size: 1.5rem;
-    margin: 20px 0 10px;
-    color: #ffdd57;
+.lang-switch a:hover{
+    background:rgba(255,255,255,0.2);
 }
 
-/* ===== Переключатель языка ===== */
-.lang-switch {
-    margin-bottom: 30px;
+/* ===== ПОИСК ===== */
+
+.controls{
+    display:flex;
+    justify-content:center;
+    gap:10px;
+    margin-bottom:25px;
 }
 
-.lang-switch a {
-    text-decoration: none;
-    color: white;
-    font-weight: bold;
-    margin: 0 10px;
-    transition: color 0.3s;
+.controls input{
+    padding:10px;
+    width:220px;
+    border:none;
+    border-radius:10px;
+    outline:none;
 }
 
-.lang-switch a:hover {
-    color: #ffdd57;
+.controls select{
+    padding:10px;
+    border:none;
+    border-radius:10px;
 }
 
-/* ===== Карточки новостей ===== */
-.news-items {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    margin-bottom: 40px;
+.controls button{
+    padding:10px 15px;
+    border:none;
+    border-radius:10px;
+    background:#00c6ff;
+    color:white;
+    cursor:pointer;
+    transition:0.3s;
 }
 
-.news-item {
-    background: rgba(255, 255, 255, 0.1);
-    padding: 15px 20px;
-    border-radius: 10px;
-    text-align: left;
-    transition: all 0.3s ease;
+.controls button:hover{
+    background:#0072ff;
 }
 
-.news-item:hover {
-    background: rgba(255, 255, 255, 0.2);
-    transform: translateY(-3px);
+/* ===== КАРТОЧКИ ===== */
+
+.news-card{
+    background: rgba(255,255,255,0.1);
+    backdrop-filter: blur(15px);
+    border-radius:15px;
+    padding:15px;
+    margin:20px 0;
+    box-shadow:0 5px 20px rgba(0,0,0,0.3);
+    transition:0.3s;
 }
 
-/* Ссылки внутри новостей */
-.news-item a {
-    color: #ffdd57;
-    text-decoration: none;
-    font-weight: bold;
+.news-card:hover{
+    transform: translateY(-5px);
 }
 
-.news-item a:hover {
-    text-decoration: underline;
+/* КАРТИНКА */
+.news-card img{
+    width:100%;
+    border-radius:10px;
+    margin-bottom:10px;
 }
 
-/* ===== Мобильная адаптивность ===== */
-@media (max-width: 600px) {
-    h1 {
-        font-size: 2rem;
+/* ЗАГОЛОВОК */
+.news-card h3{
+    margin:10px 0;
+    font-size:20px;
+}
+
+/* ТЕКСТ */
+.news-card p{
+    opacity:0.9;
+}
+
+/* ДАТА */
+.news-card small{
+    color:#ccc;
+}
+
+/* ИСТОЧНИК */
+.source{
+    display:inline-block;
+    margin-top:5px;
+    font-weight:bold;
+    color:#00eaff;
+}
+
+/* ССЫЛКА */
+.news-card a{
+    display:inline-block;
+    margin-top:10px;
+    text-decoration:none;
+    color:#00eaff;
+    font-weight:bold;
+}
+
+.news-card a:hover{
+    text-decoration:underline;
+}
+
+/* ===== АДАПТИВ ===== */
+
+@media(max-width:600px){
+
+    h1{
+        font-size:28px;
     }
 
-    h2 {
-        font-size: 1.5rem;
+    .controls{
+        flex-direction:column;
+        align-items:center;
     }
 
-    h3 {
-        font-size: 1.2rem;
-    }
-
-    .container {
-        padding: 20px 15px;
+    .controls input{
+        width:100%;
     }
 }

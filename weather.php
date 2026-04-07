@@ -12,7 +12,7 @@ if (!$lat || !$lon) {
     exit;
 }
 
-/*
+
 // Если появится ключ API, раскомментировать:
 $url = "https://api.openweathermap.org/data/2.5/weather?lat=$lat&lon=$lon&units=metric&lang=et&appid=" . API_KEY;
 $data_json = file_get_contents($url);
@@ -26,7 +26,7 @@ if ($data_json) {
     $temp = 20;
     $desc = 'Clear sky';
 }
-*/
+
 
 // Заглушка для разработки без API
 $city = 'Test City';

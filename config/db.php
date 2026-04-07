@@ -1,4 +1,4 @@
-<?php
+    <?php
 global $conn;
 // config/db.php
 // Настройки базы данных

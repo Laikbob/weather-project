@@ -1,122 +1,142 @@
 <?php
-// -----------------------------
-// lang.php — переводы и язык
-// -----------------------------
-$text = [
-    'et' => [
-        'title' => 'Ilmajaam',
-        'news' => 'Uudised',
-        'select_language' => 'Vali keel',
-    ],
-    'ru' => [
-        'title' => 'Погодная станция',
-        'news' => 'Новости',
-        'select_language' => 'Выберите язык',
-    ],
-];
+require __DIR__ . '/config/lang.php';
+list($lang, $text) = getLang();
+require __DIR__ . '/config/rss_fetch.php';
 
-// Определяем язык: GET-параметр или по умолчанию эстонский
-$lang = $_GET['lang'] ?? 'et';
-$available_languages = ['et', 'ru'];
-if (!in_array($lang, $available_languages)) {
-    $lang = 'et';
-}
-
-// -----------------------------
-// Подключаем функцию для вывода карточки новости
-// -----------------------------
-include __DIR__ . "/news/news_card.php";
-
-// -----------------------------
-// RSS-каналы
-// -----------------------------
+// ===== RSS ИСТОЧНИКИ =====
 if ($lang === "ru") {
     $feeds = [
-        "ERR" => "https://rus.err.ee/rss",
-        "Postimees" => "https://rus.postimees.ee/rss"
+            "ERR" => "https://rus.err.ee/rss",
+            "Postimees" => "https://rus.postimees.ee/rss"
     ];
+    $sources = array_keys($feeds);
 } else {
     $feeds = [
-        "ERR" => "https://www.err.ee/rss",
-        "Postimees" => "https://www.postimees.ee/rss",
-        "Õhtuleht" => "https://www.ohtuleht.ee/rss"
+            "ERR" => "https://www.err.ee/rss",
+            "Postimees" => "https://www.postimees.ee/rss",
+            "Õhtuleht" => "https://www.ohtuleht.ee/rss"
     ];
+    $sources = array_keys($feeds);
 }
 
-// -----------------------------
-// Функция загрузки новостей из RSS
-// -----------------------------
-function fetchNews($url, $limit = 10) {
-    $rss = @simplexml_load_file($url);
-    $items = [];
-    $count = 0;
-
-    if ($rss && isset($rss->channel->item)) {
-        foreach ($rss->channel->item as $item) {
-            $items[] = [
-                'title' => (string)($item->title ?? ''),
-                'link' => (string)($item->link ?? ''),
-                'pubDate' => isset($item->pubDate) ? strtotime($item->pubDate) : time(),
-                'description' => (string)($item->description ?? ''),
-                'category' => isset($item->category) ? (string)$item->category : '',
-                'image' => isset($item->enclosure['url']) ? (string)$item->enclosure['url'] : ''
-            ];
-            $count++;
-            if ($count >= $limit) break;
-        }
-    }
-
-    return $items;
-}
-
-// -----------------------------
-// Загружаем и сортируем все новости
-// -----------------------------
+// ===== СОБИРАЕМ ВСЕ НОВОСТИ =====
 $allNews = [];
+
 foreach ($feeds as $name => $url) {
-    $news = fetchNews($url, 10);
-    $allNews = array_merge($allNews, $news);
+    $allNews = array_merge($allNews, fetchNews($url, $name));
 }
 
-// Сортировка по дате (новые сверху)
-usort($allNews, function($a, $b) {
+
+// ===== ПОИСК =====
+$search = $_GET['search'] ?? '';
+
+if ($search) {
+    $allNews = array_filter($allNews, function($item) use ($search) {
+        return stripos($item['title'], $search) !== false ||
+                stripos($item['description'], $search) !== false;
+    });
+}
+$source = $_GET['source'] ?? '';
+
+if ($source) {
+    $allNews = array_filter($allNews, function($item) use ($source) {
+        return $item['source'] === $source;
+    });
+}
+
+// ===== СОРТИРОВКА =====
+$sort = $_GET['sort'] ?? 'new';
+
+usort($allNews, function($a, $b) use ($sort) {
+    if ($sort === 'old') {
+        return $a['pubDate'] - $b['pubDate'];
+    }
     return $b['pubDate'] - $a['pubDate'];
 });
+
 ?>
+
 <!DOCTYPE html>
-<html lang="<?= htmlspecialchars($lang) ?>">
+<html lang="<?= $lang ?>">
 <head>
     <meta charset="UTF-8">
-    <title><?= htmlspecialchars($text[$lang]['title']) ?></title>
+    <title><?= $text[$lang]['title'] ?></title>
+
     <link rel="stylesheet" href="assets/css/index.css">
 </head>
 <body>
 
 <div class="container">
-    <h1><?= htmlspecialchars($text[$lang]['title']) ?></h1>
+
+    <h1><?= $text[$lang]['title'] ?></h1>
 
     <div class="lang-switch">
-        <a href="?lang=et">🇪🇪 Eesti</a> |
+        <a href="?lang=et">🇪🇪 Eesti</a>
         <a href="?lang=ru">🇷🇺 Русский</a>
     </div>
 
-    <h2><?= htmlspecialchars($text[$lang]['news']) ?></h2>
+    <h2><?= $text[$lang]['news'] ?></h2>
 
-    <div class="news-items">
-        <?php
-        // Выводим новости через renderNewsCard
-        foreach ($allNews as $item) {
-            renderNewsCard(
-                $item['title'] ?? '',
-                $item['link'] ?? '',
-                $item['pubDate'] ?? time(),
-                $item['description'] ?? '',
-                $item['category'] ?? '',
-                $item['image'] ?? ''
-            );
-        }
-        ?>
-    </div>
+    <!-- ПОИСК И СОРТИРОВКА -->
+    <form method="GET" class="controls">
+
+        <input type="hidden" name="lang" value="<?= $lang ?>">
+
+        <input type="text" name="search"
+               placeholder="<?= $text[$lang]['search'] ?>"
+               value="<?= htmlspecialchars($search) ?>">
+
+        <select name="source">
+            <option value=""><?= $text[$lang]['source'] ?></option>
+
+            <?php foreach ($sources as $s): ?>
+                <option value="<?= $s ?>"
+                        <?= $source == $s ? 'selected' : '' ?>>
+
+                    <?= htmlspecialchars($s) ?>
+                </option>
+            <?php endforeach; ?>
+        </select>
+
+        <select name="sort">
+            <option value="new" <?= $sort=='new'?'selected':'' ?>>
+                <?= $text[$lang]['new'] ?>
+            </option>
+            <option value="old" <?= $sort=='old'?'selected':'' ?>>
+                <?= $text[$lang]['old'] ?>
+            </option>
+        </select>
+
+        <button>OK</button>
+
+    </form>
+
+
+    <!-- НОВОСТИ -->
+    <?php foreach($allNews as $item): ?>
+
+        <div class="news-card">
+
+            <?php if($item['image']): ?>
+                <img src="<?= $item['image'] ?>">
+            <?php endif; ?>
+
+            <h3><?= $item['title'] ?></h3>
+
+            <p><?= $item['description'] ?></p>
+
+            <small><?= date("d.m.Y H:i", $item['pubDate']) ?></small><br>
+
+            <span class="source"><?= $item['source'] ?></span><br>
+
+            <a href="<?= $item['link'] ?>" target="_blank">
+                <?= $text[$lang]['read'] ?>
+            </a>
+
+        </div>
+
+    <?php endforeach; ?>
+
 </div>
 
 </body>
