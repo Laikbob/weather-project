@@ -1,5 +1,5 @@
 <?php
-define('API_KEY', '032145b0ef22d046d99de8752048c3ff');
+define('API_KEY', '');
 
 $lat = $_GET['lat'] ?? null;
 $lon = $_GET['lon'] ?? null;
