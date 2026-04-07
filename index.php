@@ -61,10 +61,16 @@ usort($allNews, function($a, $b) use ($sort) {
 <head>
     <meta charset="UTF-8">
     <title><?= $text[$lang]['title'] ?></title>
-
     <link rel="stylesheet" href="assets/css/index.css">
 </head>
 <body>
+
+<nav class="top-nav">
+    <ul>
+        <li><a href="index.php?lang=<?= $lang ?>">Новости</a></li>
+        <li><a href="weather.php?lang=<?= $lang ?>">Погода</a></li>
+    </ul>
+</nav>
 
 <div class="container">
 
