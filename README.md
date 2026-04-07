@@ -1,7 +1,7 @@
 <h1>Weather-Project 🌤️📰</h1>
 <p>
   Link: <a href="https://andreilebedev24.thkit.ee/weather-project/index.php" target="_blank">
-    web
+    weather-project
   </a>
 </p>
 
