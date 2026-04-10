@@ -74,5 +74,5 @@ function getLang() {
         ],
     ];
 
-    return [$lang, $text[$lang]];
+    return [$lang, $text];
 }

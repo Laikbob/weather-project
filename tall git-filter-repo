@@ -1,0 +1,29 @@
+[33mcommit 64c514b76d2f05d7db2f6e4e551e6603cb464dbc[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmaster[m[33m)[m
+Author: Andrei <andreilebedev321@gmail.com>
+Date:   Fri Apr 10 15:56:49 2026 +0300
+
+    Remove .env from repository
+
+[33mcommit 23728b1f27c9766584eca821aac4a7d04a7fda11[m
+Author: Andrei <andreilebedev321@gmail.com>
+Date:   Fri Apr 10 15:16:30 2026 +0300
+
+    Lisatud otsing, sortimine, kategooriad, väljaanded, lemmikud, kirje,
+
+[33mcommit b3f10e5f41decfdb43888bdc7281c88965a9fcde[m
+Author: Andrei <andreilebedev321@gmail.com>
+Date:   Tue Apr 7 16:54:42 2026 +0300
+
+    temp before cleaning history
+
+[33mcommit 9aff555970a65330b0652725fe80d31bffa13f5c[m
+Author: Andrei <andreilebedev321@gmail.com>
+Date:   Tue Apr 7 16:53:29 2026 +0300
+
+    Remove .env from repo
+
+[33mcommit c7ab7a200ef73032e1e4646ab250fc817745748c[m
+Author: Andrei <andreilebedev321@gmail.com>
+Date:   Tue Apr 7 16:51:19 2026 +0300
+
+    added key hiding

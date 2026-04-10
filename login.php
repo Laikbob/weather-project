@@ -4,7 +4,11 @@ session_start();
 require "config/db.php";
 require "config/lang.php";
 
-list($lang, $t) = getLang();
+$lang = $_GET['lang'] ?? ($_SESSION['lang'] ?? 'et');
+$_SESSION['lang'] = $lang;
+
+list($lang, $text) = getLang();
+$t = $text[$lang];
 
 if ($_POST) {
     $username = $_POST['username'];
@@ -29,7 +33,6 @@ if ($_POST) {
 $news = $conn->query("SELECT title FROM favorites ORDER BY id DESC LIMIT 1");
 $lastNews = $news->fetch_assoc()['title'] ?? "Нет новостей";
 ?>
-
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -52,14 +55,26 @@ $lastNews = $news->fetch_assoc()['title'] ?? "Нет новостей";
 
         <!-- язык -->
         <div class="lang-switch">
-            <a href="?lang=et">🇪🇪 Eesti</a>
-            <a href="?lang=ru">🇷🇺 Русский</a>
+            <a href="login.php?lang=et">🇪🇪 Eesti</a>
+            <a href="login.php?lang=ru">🇷🇺 Русский</a>
         </div>
 
-        <input name="username" placeholder="<?= $t['username'] ?>">
-        <input name="password" type="password" placeholder="<?= $t['password'] ?>">
+        <!-- 🔥 ВАЖНО: form -->
+        <form method="POST">
 
-        <button><?= $t['login'] ?></button>
+            <input name="username" placeholder="<?= $t['username'] ?>">
+            <input name="password" type="password" placeholder="<?= $t['password'] ?>">
+
+            <button type="submit"><?= $t['login'] ?></button>
+
+        </form>
+
+        <!-- ошибка -->
+        <?php if (!empty($error)): ?>
+            <div style="color:red;">
+                <?= $error ?>
+            </div>
+        <?php endif; ?>
 
         <div class="info" id="weatherBox">
             🌤 Загружаем погоду...
@@ -70,6 +85,7 @@ $lastNews = $news->fetch_assoc()['title'] ?? "Нет новостей";
             <b><?= htmlspecialchars($lastNews) ?></b>
         </div>
 
+    </div>
 </div>
 
 <script src="assets/js/login.js"></script>
