@@ -181,3 +181,128 @@ h2 {
         width: 100%;
     }
 }
+.pagination {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.pagination a {
+    display: inline-block;
+    margin: 5px;
+    padding: 8px 12px;
+    background: #eee;
+    text-decoration: none;
+    border-radius: 6px;
+}
+
+.pagination a.active {
+    background: #333;
+    color: white;
+}
+
+/* ===== HEADER (ВХОД/РЕГИСТРАЦИЯ) ===== */
+.header-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 20px;
+    background: rgba(0,0,0,0.3);
+    backdrop-filter: blur(10px);
+}
+
+.logo {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+/* ПАНЕЛЬ ПОЛЬЗОВАТЕЛЯ */
+.user-panel {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+/* ССЫЛКИ */
+.user-panel a {
+    text-decoration: none;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 8px;
+    transition: 0.3s;
+}
+
+/* hover */
+.user-panel a:hover {
+    background: rgba(255,255,255,0.2);
+}
+
+/* КНОПКА РЕГИСТРАЦИИ */
+.register-btn {
+    background: #00c6ff;
+}
+
+.register-btn:hover {
+    background: #0072ff;
+}
+
+.user-panel a.logout-btn {
+    background: #ff4d4d;
+}
+
+.user-panel a.logout-btn:hover {
+    background: #cc0000;
+}
+
+/* ИМЯ ПОЛЬЗОВАТЕЛЯ */
+.user-panel span {
+    font-weight: bold;
+    color: #00eaff;
+}
+
+.filter-buttons {
+    margin: 10px 0;
+}
+
+.btn {
+    display: inline-block;
+    padding: 6px 12px;
+    margin: 3px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    text-decoration: none;
+    color: black;
+    background: #f5f5f5;
+    transition: 0.2s;
+}
+
+.btn:hover {
+    background: #ddd;
+}
+
+.btn.active {
+    background: #007bff;
+    color: white;
+    border-color: #007bff;
+}
+
+.categories-block {
+    max-height: 0;       /* изначально скрыт */
+    overflow: hidden;    /* скрываем все содержимое */
+    transition: max-height 0.3s ease; /* плавное раскрытие */
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+.categories-block.active {
+    max-height: 500px; /* достаточно для всех кнопок, можно больше */
+}
+
+.toggle-cats .arrow {
+    display: inline-block;
+    transition: transform 0.3s ease;
+}
+
+.toggle-cats.active .arrow {
+    transform: rotate(180deg); /* переворот стрелки */
+}

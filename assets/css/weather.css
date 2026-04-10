@@ -1,79 +1,152 @@
 body {
-    font-family: 'Arial', sans-serif;
-    background: linear-gradient(to bottom, #a0e9ff, #ffffff);
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: linear-gradient(135deg, #74ebd5, #9face6);
     margin: 0;
     padding: 30px;
     text-align: center;
+    color: #333;
 }
 
-nav {
-    margin-bottom: 20px;
+/* Заголовок */
+h1 {
+    font-size: 32px;
+    margin-bottom: 10px;
 }
-nav a {
+
+/* Навигация */
+.top-nav {
+    margin: 20px 0;
+}
+
+.top-nav a {
     margin: 0 10px;
     text-decoration: none;
-    color: #0072ff;
-    font-weight: bold;
+    color: white;
+    background: rgba(0,0,0,0.2);
+    padding: 8px 15px;
+    border-radius: 10px;
+    transition: 0.3s;
 }
 
-.weather-box {
-    border-radius: 15px;
-    background: rgba(255,255,255,0.9);
-    padding: 20px;
-    display: inline-block;
-    margin-top: 20px;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-    transition: transform 0.3s;
+.top-nav a:hover {
+    background: rgba(0,0,0,0.4);
 }
+
+/* Переключение языка */
+.lang-switch a {
+    margin: 0 5px;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+/* Поиск */
+#searchForm {
+    margin-top: 20px;
+}
+
+input {
+    padding: 12px 15px;
+    border-radius: 12px;
+    border: none;
+    outline: none;
+    font-size: 16px;
+    width: 200px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+/* Кнопки */
+button {
+    padding: 12px 18px;
+    border-radius: 12px;
+    border: none;
+    background: #0072ff;
+    color: white;
+    font-size: 15px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    background: #0057cc;
+    transform: translateY(-2px);
+}
+
+#geoBtn {
+    background: #00c6ff;
+}
+
+#geoBtn:hover {
+    background: #009ec3;
+}
+
+/* Карточка погоды */
+.weather-box {
+    border-radius: 20px;
+    background: rgba(255,255,255,0.25);
+    backdrop-filter: blur(10px);
+    padding: 25px;
+    display: inline-block;
+    margin-top: 25px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    transition: 0.3s;
+}
+
 .weather-box:hover {
     transform: translateY(-5px);
 }
 
-input, button {
-    padding: 10px 15px;
-    margin: 5px;
-    border-radius: 10px;
-    border: 1px solid #ccc;
-    cursor: pointer;
-    font-size: 16px;
-}
-
+/* Карта */
 #map {
     height: 400px;
     width: 100%;
-    margin-top: 20px;
-    border-radius: 15px;
+    margin-top: 25px;
+    border-radius: 20px;
     display: none;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
 }
 
+/* Прогноз */
 #forecast {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    margin-top: 20px;
+    margin-top: 25px;
 }
 
+/* Карточка прогноза */
 .forecast-card {
-    background: rgba(255,255,255,0.9);
-    border-radius: 12px;
+    background: rgba(255,255,255,0.3);
+    backdrop-filter: blur(8px);
+    border-radius: 15px;
     padding: 15px;
     margin: 10px;
     width: 120px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.15);
-    transition: transform 0.3s, background 0.3s, opacity 0.5s, transform 0.5s;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+
     opacity: 0;
     transform: translateY(20px);
+    animation: fadeIn 0.5s forwards;
 }
+
 .forecast-card:hover {
-    transform: translateY(-5px);
-    background: rgba(255,255,255,1);
+    transform: translateY(-5px) scale(1.05);
+    background: rgba(255,255,255,0.5);
 }
+
 .forecast-card h4 {
     margin: 5px 0;
     font-size: 16px;
 }
+
 .forecast-card p {
-    margin: 2px 0;
+    margin: 3px 0;
     font-size: 14px;
+}
+
+/* Анимация появления */
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }

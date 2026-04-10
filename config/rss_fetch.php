@@ -11,6 +11,7 @@ function fetchNews($url, $source, $limit = 25) {
 
             $image = "";
 
+            // ===== КАРТИНКА =====
             if(isset($item->enclosure['url'])){
                 $image = (string)$item->enclosure['url'];
             } else {
@@ -20,13 +21,24 @@ function fetchNews($url, $source, $limit = 25) {
                 }
             }
 
+            // ===== КАТЕГОРИИ =====
+            $categories = [];
+            if (isset($item->category)) {
+                foreach ($item->category as $cat) {
+                    $categories[] = (string)$cat;
+                }
+            }
+
             $items[] = [
                 'title' => (string)$item->title,
                 'link' => (string)$item->link,
                 'pubDate' => strtotime($item->pubDate),
                 'description' => strip_tags($item->description),
                 'image' => $image,
-                'source' => $source
+                'source' => $source,
+
+                // 👇 ДОБАВИЛИ
+                'categories' => $categories
             ];
 
             $count++;

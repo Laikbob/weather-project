@@ -1,0 +1,210 @@
+/* ===== ОСНОВА ===== */
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #1e3c72, #2a5298);
+    color: white;
+}
+
+/* ===== ПАНЕЛЬ ШАПКИ ===== */
+.header-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 20px;
+    background: rgba(0,0,0,0.2);
+    backdrop-filter: blur(10px);
+}
+
+.header-bar .logo {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+/* ===== ПАНЕЛЬ ПОЛЬЗОВАТЕЛЯ ===== */
+.user-panel {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.user-panel span {
+    font-weight: bold;
+    color: #00eaff;
+}
+
+.user-panel a {
+    text-decoration: none;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 8px;
+    transition: 0.3s;
+}
+
+.user-panel a:hover {
+    background: rgba(255,255,255,0.2);
+}
+
+/* ===== КОНТЕЙНЕР ===== */
+.container {
+    max-width: 900px;
+    margin: 20px auto;
+    padding: 20px;
+}
+
+/* ===== ЗАГОЛОВКИ ===== */
+h1 {
+    text-align: center;
+    font-size: 36px;
+    margin-bottom: 20px;
+}
+
+/* ===== ПЕРЕКЛЮЧЕНИЕ ЯЗЫКА ===== */
+.lang-switch {
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.lang-switch a {
+    margin: 0 10px;
+    text-decoration: none;
+    color: #00eaff;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.lang-switch a:hover {
+    color: #00fff0;
+    text-decoration: underline;
+}
+
+/* ===== КНОПКА НАЗАД ===== */
+.back-btn {
+    display: inline-block;
+    margin-bottom: 25px;
+    padding: 8px 14px;
+    background: #00c6ff;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: 0.3s;
+}
+
+.back-btn:hover {
+    background: #0072ff;
+}
+
+/* ===== КАРТОЧКИ НОВОСТЕЙ ===== */
+.news-card {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(15px);
+    border-radius: 15px;
+    padding: 15px;
+    margin: 15px 0;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+    transition: 0.3s;
+}
+
+.news-card:hover {
+    transform: translateY(-5px);
+}
+
+.news-card h3 {
+    margin: 10px 0;
+    font-size: 20px;
+}
+
+.news-card a {
+    display: inline-block;
+    margin-top: 8px;
+    text-decoration: none;
+    color: #00eaff;
+    font-weight: bold;
+}
+
+.news-card a:hover {
+    text-decoration: underline;
+}
+
+/* ===== ПУСТОЙ СПИСОК ===== */
+.container p {
+    text-align: center;
+    font-size: 20px;
+    color: #a0eaff;
+}
+
+/* ===== АДАПТИВ ===== */
+@media(max-width: 600px) {
+    h1 {
+        font-size: 28px;
+    }
+
+    .news-card h3 {
+        font-size: 18px;
+    }
+
+    .back-btn {
+        width: 100%;
+        text-align: center;
+    }
+
+    .user-panel {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .lang-switch a {
+        display: inline-block;
+        margin: 5px 8px;
+    }
+}
+
+/* ===== КНОПКИ ФИЛЬТРОВ (если будут) ===== */
+.filter-buttons {
+    margin: 10px 0;
+    text-align: center;
+}
+
+.btn {
+    display: inline-block;
+    padding: 6px 12px;
+    margin: 3px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    text-decoration: none;
+    color: black;
+    background: #f5f5f5;
+    transition: 0.2s;
+}
+
+.btn:hover {
+    background: #ddd;
+}
+
+.btn.active {
+    background: #007bff;
+    color: white;
+    border-color: #007bff;
+}
+
+.categories-block {
+    max-height: 0;       /* изначально скрыт */
+    overflow: hidden;    /* скрываем все содержимое */
+    transition: max-height 0.3s ease; /* плавное раскрытие */
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+.categories-block.active {
+    max-height: 500px; /* достаточно для всех кнопок, можно больше */
+}
+
+.toggle-cats .arrow {
+    display: inline-block;
+    transition: transform 0.3s ease;
+}
+
+.toggle-cats.active .arrow {
+    transform: rotate(180deg); /* переворот стрелки */
+}

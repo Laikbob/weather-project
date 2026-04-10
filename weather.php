@@ -1,3 +1,11 @@
+<?php
+require __DIR__ . '/config/db.php';
+global $conn;
+require __DIR__ . '/config/lang.php';
+list($lang, $text) = getLang();
+
+?>
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -8,12 +16,20 @@
 </head>
 <body>
 
-<nav>
-    <a href="index.php">Новости</a>
-    <a href="weather.php">Погода</a>
-</nav>
-
 <h1>Weather Project 🌤️</h1>
+
+<div class="lang-switch">
+    <a href="?lang=et">🇪🇪 Eesti</a>
+    <a href="?lang=ru">🇷🇺 Русский</a>
+</div>
+
+<!-- меню -->
+<nav class="top-nav">
+    <ul>
+        <li><a href="index.php?lang=<?= $lang ?>"><?= $text[$lang]['news'] ?></a></li>
+        <li><a href="favorites.php?lang=<?= $lang ?>"><?= $text[$lang]['fav'] ?></a></li>
+    </ul>
+</nav>
 
 <form id="searchForm">
     <input type="text" id="cityInput" placeholder="Введите город">

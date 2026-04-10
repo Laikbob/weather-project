@@ -21,6 +21,6 @@
 <h3>
   PHP – serveripoolse loogika jaoks<br>
   JavaScript – interaktiivsete elementide ja graafikute loomiseks<br>
-  SQL – andmete salvestamiseks (uudised ja ilmainfo)<br>
+  XAMPP – andmete salvestamiseks (uudised ja ilmainfo)<br>
   HTML/CSS – veebilehe struktuuri ja kujunduse loomiseks
 </h3>

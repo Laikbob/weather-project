@@ -1,17 +1,14 @@
-    <?php
-global $conn;
-// config/db.php
-// Настройки базы данных
-define('DB_HOST', 'localhost');
-define('DB_USER', 'root');
-define('DB_PASS', '');
-define('DB_NAME', 'weather_db');
+<?php
+// Настройки подключения
+$host = "localhost";   // обычно localhost для XAMPP
+$dbname = "news_site"; // имя вашей БД
+$user = "root";        // стандартный пользователь XAMPP
+$pass = "";            // стандартный пароль пустой
 
-// Подключение к базе
-$conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+// Создание подключения
+$conn = new mysqli($host, $user, $pass, $dbname);
 
 // Проверка подключения
 if ($conn->connect_error) {
-    die("Ошибка подключения к базе: " . $conn->connect_error);
+    die("Ошибка подключения: " . $conn->connect_error);
 }
-?>
