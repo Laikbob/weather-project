@@ -6,71 +6,113 @@ loadEnv(__DIR__ . '/../.env');
 
 define('API_KEY', getenv('OPENWEATHER_KEY'));
 
+$lang = $_GET['lang'] ?? 'et';
+if (!in_array($lang, ['ru','et','en'])) $lang = 'et';
+
 $lat = $_GET['lat'] ?? null;
 $lon = $_GET['lon'] ?? null;
-$searchCity = $_GET['city'] ?? null;
+$city = $_GET['city'] ?? null;
 
-$response = [
-    'city' => null,
-    'temp' => null,
-    'desc' => null,
-    'lat' => null,
-    'lon' => null,
-    'forecast' => [],
-    'error' => null
+if (!$lat && !$lon && !$city) {
+    echo json_encode(['error' => 'No input']);
+    exit;
+}
+
+$url = $lat && $lon
+    ? "https://api.openweathermap.org/data/2.5/forecast?lat=$lat&lon=$lon&units=metric&lang=en&appid=" . API_KEY
+    : "https://api.openweathermap.org/data/2.5/forecast?q=" . urlencode($city) . "&units=metric&lang=en&appid=" . API_KEY;
+
+$json = @file_get_contents($url);
+$data = json_decode($json, true);
+
+if (!$data || $data['cod'] != 200) {
+    echo json_encode(['error' => 'API error']);
+    exit;
+}
+
+// ICONS
+$icons = [
+    "clear sky" => "☀️",
+    "few clouds" => "🌤️",
+    "scattered clouds" => "⛅",
+    "broken clouds" => "☁️",
+    "overcast clouds" => "☁️",
+    "light rain" => "🌦️",
+    "rain" => "🌧️",
+    "thunderstorm" => "⛈️",
+    "snow" => "❄️",
+    "mist" => "🌫️"
 ];
 
-// Проверка ключа
-if (empty(API_KEY)) {
-    $response['error'] = 'API ключ не указан';
-    echo json_encode($response);
-    exit;
+// TRANSLATIONS
+$translations = [
+    "clear sky" => ["ru"=>"Ясно","et"=>"Selge"],
+    "few clouds" => ["ru"=>"Малооблачно","et"=>"Vähene pilvisus"],
+    "scattered clouds" => ["ru"=>"Облачно","et"=>"Hajus pilvisus"],
+    "broken clouds" => ["ru"=>"Облачно","et"=>"Pilvine"],
+    "overcast clouds" => ["ru"=>"Пасмурно","et"=>"Lauspilvisus"],
+    "light rain" => ["ru"=>"Дождь","et"=>"Nõrk vihm"],
+    "rain" => ["ru"=>"Дождь","et"=>"Vihm"],
+    "thunderstorm" => ["ru"=>"Гроза","et"=>"Äike"],
+    "snow" => ["ru"=>"Снег","et"=>"Lumi"],
+    "mist" => ["ru"=>"Туман","et"=>"Udu"]
+];
+
+$dayTranslations = [
+    'Mon' => ['ru'=>'Пн','et'=>'Esm'],
+    'Tue' => ['ru'=>'Вт','et'=>'Tei'],
+    'Wed' => ['ru'=>'Ср','et'=>'Kol'],
+    'Thu' => ['ru'=>'Чт','et'=>'Nelj'],
+    'Fri' => ['ru'=>'Пт','et'=>'Ree'],
+    'Sat' => ['ru'=>'Сб','et'=>'Lau'],
+    'Sun' => ['ru'=>'Вс','et'=>'Püh']
+];
+
+function formatWeather($raw, $lang, $translations, $icons){
+    $text = $translations[$raw][$lang] ?? $raw;
+    $icon = $icons[$raw] ?? "🌡️";
+    return $icon . " " . ucfirst($text);
 }
 
-// Формируем URL запроса
-if ($lat && $lon) {
-    $url = "https://api.openweathermap.org/data/2.5/forecast?lat=$lat&lon=$lon&units=metric&lang=ru&appid=" . API_KEY;
-} elseif ($searchCity) {
-    $url = "https://api.openweathermap.org/data/2.5/forecast?q=" . urlencode($searchCity) . "&units=metric&lang=ru&appid=" . API_KEY;
-} else {
-    $response['error'] = 'Не переданы координаты или название города';
-    echo json_encode($response);
-    exit;
-}
+// CURRENT
+$raw = $data['list'][0]['weather'][0]['description'];
 
-// Получаем данные
-$data_json = @file_get_contents($url);
-if (!$data_json) {
-    $response['error'] = 'Не удалось получить данные с OpenWeatherMap';
-    echo json_encode($response);
-    exit;
-}
+$response = [
+    'city' => $data['city']['name'],
+    'temp' => round($data['list'][0]['main']['temp']),
+    'desc' => formatWeather($raw, $lang, $translations, $icons),
+    'lat' => $data['city']['coord']['lat'],
+    'lon' => $data['city']['coord']['lon'],
+    'forecast' => []
+];
 
-$data = json_decode($data_json, true);
-if (isset($data['cod']) && $data['cod'] != 200) {
-    $response['error'] = $data['message'] ?? 'Ошибка API';
-    echo json_encode($response);
-    exit;
-}
-
-// Основные данные
-$response['city'] = $data['city']['name'] ?? null;
-$response['temp'] = $data['list'][0]['main']['temp'] ?? null;
-$response['desc'] = $data['list'][0]['weather'][0]['description'] ?? null;
-$response['lat'] = $data['city']['coord']['lat'] ?? $lat;
-$response['lon'] = $data['city']['coord']['lon'] ?? $lon;
-
-// Прогноз на 5 дней (берем первый прогноз каждого дня)
+// FORECAST
 $days = [];
+
 foreach ($data['list'] as $item) {
-    $date = explode(' ', $item['dt_txt'])[0];
-    if (!isset($days[$date])) {
-        $days[$date] = [
-            'temp' => $item['main']['temp'],
-            'desc' => $item['weather'][0]['description']
-        ];
-    }
+
+    $ts = strtotime($item['dt_txt']);
+    $dateKey = date('Y-m-d', $ts);
+
+    // берём только 12:00
+    if (date('H', $ts) != 12) continue;
+
+    if (isset($days[$dateKey])) continue;
+
+    $raw = $item['weather'][0]['description'];
+
+    $dayEn = date('D', $ts);
+    $day = $dayTranslations[$dayEn][$lang] ?? $dayEn;
+
+    $days[$dateKey] = [
+        'date' => $day . ' ' . date('d.m', $ts),
+        'temp' => round($item['main']['temp']),
+        'desc' => formatWeather($raw, $lang, $translations, $icons)
+    ];
+
+    if (count($days) >= 5) break;
 }
-$response['forecast'] = $days;
+
+$response['forecast'] = array_values($days);
 
 echo json_encode($response);

@@ -1,7 +1,7 @@
 <?php
 global $conn;
 session_start();
-require "../db.php";
+require "../zonedb.php";
 
 if (!isset($_SESSION['user'])) {
     die("Нет доступа");
@@ -29,5 +29,5 @@ if (strpos($return, 'http') === 0) {
     $return = '../../favorites.php';
 }
 
-header("Location: " . $return);
+header("Location: " . $_SERVER['HTTP_REFERER']);
 exit;

@@ -1,26 +1,46 @@
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
+
     const toggle = document.querySelector(".toggle-cats");
     const block = document.querySelector(".categories-block");
 
-    toggle.addEventListener("click", function() {
-        block.classList.toggle("active");  // раскрытие/скрытие блока
-        toggle.classList.toggle("active"); // поворот стрелки
-    });
+    if (toggle && block) {
+        toggle.addEventListener("click", function () {
+            block.classList.toggle("active");
+            toggle.classList.toggle("active");
+        });
+    }
+
 });
+//СОХРАНЕНИЕ СКРОЛЛА
+    const forms = document.querySelectorAll("form");
 
-
-// сохраняем позицию перед отправкой формы
-document.querySelectorAll("form").forEach(form => {
-    form.addEventListener("submit", () => {
-        localStorage.setItem("scrollY", window.scrollY);
+    forms.forEach(form => {
+        form.addEventListener("submit", () => {
+            localStorage.setItem("scrollY", window.scrollY);
+        });
     });
-});
 
-// восстанавливаем после загрузки
 window.addEventListener("load", () => {
     const scrollY = localStorage.getItem("scrollY");
+
     if (scrollY !== null) {
-        window.scrollTo(0, scrollY);
+        window.scrollTo(0, parseInt(scrollY));
         localStorage.removeItem("scrollY");
     }
+});
+// открываюшийся список
+document.querySelectorAll('.dropdown').forEach(drop => {
+    const btn = drop.querySelector('.dropbtn');
+    const menu = drop.querySelector('.dropdown-content');
+
+    btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        menu.classList.toggle('show');
+    });
+});
+
+document.addEventListener('click', () => {
+    document.querySelectorAll('.dropdown-content').forEach(menu => {
+        menu.classList.remove('show');
+    });
 });

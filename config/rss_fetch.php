@@ -1,5 +1,4 @@
 <?php
-
 function fetchNews($url, $source, $limit = 25) {
 
     $rss = @simplexml_load_file($url);
@@ -11,7 +10,7 @@ function fetchNews($url, $source, $limit = 25) {
 
             $image = "";
 
-            // ===== КАРТИНКА =====
+            //  КАРТИНКА
             if(isset($item->enclosure['url'])){
                 $image = (string)$item->enclosure['url'];
             } else {
@@ -21,7 +20,7 @@ function fetchNews($url, $source, $limit = 25) {
                 }
             }
 
-            // ===== КАТЕГОРИИ =====
+            // КАТЕГОРИИ
             $categories = [];
             if (isset($item->category)) {
                 foreach ($item->category as $cat) {
@@ -36,8 +35,6 @@ function fetchNews($url, $source, $limit = 25) {
                 'description' => strip_tags($item->description),
                 'image' => $image,
                 'source' => $source,
-
-                // 👇 ДОБАВИЛИ
                 'categories' => $categories
             ];
 

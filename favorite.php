@@ -1,9 +1,9 @@
 <?php
 global $conn;
 session_start();
-require "config/db.php";
+require "config/zonedb.php";
 
-if (!isset($_SESSION['user'])) {
+if (empty($_SESSION['user']['id'])) {
     die("Сначала войдите");
 }
 
@@ -49,5 +49,8 @@ if ($title && $link) {
 
 // Возврат на страницу
 $return = $_POST['return_url'] ?? 'index.php';
-header("Location: $return");
+
+$lang = $_POST['lang'] ?? 'et';
+
+header("Location: " . $return . "?lang=" . $lang);
 exit;

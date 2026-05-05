@@ -1,7 +1,7 @@
 <?php
 global $conn;
 session_start();
-require "../db.php";
+require "../zonedb.php";
 
 if (!isset($_SESSION['user'])) {
     die("Нет доступа");

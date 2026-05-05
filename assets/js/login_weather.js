@@ -1,4 +1,5 @@
 const box = document.getElementById("weatherBox");
+const lang = document.documentElement.lang || "et";
 
 // сначала пробуем геолокацию
 if (navigator.geolocation) {
@@ -12,31 +13,35 @@ function success(pos) {
 }
 
 function fallback() {
-    // если гео запрещено → используем Tallinn
     loadWeatherByCity("Tallinn");
 }
 
 function loadWeather(lat, lon) {
-    fetch(`/config/weather_api.php?lat=${lat}&lon=${lon}`)
+    fetch("config/weather_api.php?lat=" + lat + "&lon=" + lon + "&lang=" + lang)
         .then(r => r.json())
         .then(show);
 }
 
 function loadWeatherByCity(city) {
-    fetch(`/config/weather_api.php?city=${city}`)
+    fetch(`/config/weather_api.php?city=${city}&lang=${lang}`)
         .then(r => r.json())
         .then(show);
 }
-
 function show(data) {
     if (data.error) {
-        box.innerHTML = "❌ Ошибка погоды";
+
+        let msg = {
+            ru: "❌ Ошибка погоды",
+            et: "❌ Ilma viga"
+        };
+
+        box.innerHTML = msg[lang] || "❌ Weather error";
         return;
     }
 
     box.innerHTML = `
         🌤 <b>${data.city}</b><br>
         🌡 ${data.temp}°C<br>
-        ⛅ ${data.desc}
+         ${data.desc}
     `;
 }
